@@ -39,6 +39,9 @@ namespace BoardGameClock
 			}
 
 			UserNames = names;
+			for (int i = 0; i < names.Count; i++)
+				if (UserNames[i].Length > 0)
+					UserNames[i] = UserNames[i][0].ToString().ToUpper() + UserNames[i].Substring(1);
 		}
 
 		public void Start()
@@ -60,7 +63,7 @@ namespace BoardGameClock
 
 			int prevIndex = RunningIndex - 1 < 0 ? NumUsers - 1 : RunningIndex - 1;
 			
-			UserClocks[RunningIndex].Start();
+			UserClocks[RunningIndex].Restart();
 			return UserClocks[prevIndex].ElapsedMilliseconds;
 		}
 
@@ -72,8 +75,7 @@ namespace BoardGameClock
 		{
 			IsRunning = false;
 			UserClocks[RunningIndex].Stop();
-			var lastTotal = UserTurnTimes[RunningIndex].Sum();
-			UserTurnTimes[RunningIndex].Add(UserClocks[RunningIndex].ElapsedMilliseconds - lastTotal);
+			UserTurnTimes[RunningIndex].Add(UserClocks[RunningIndex].ElapsedMilliseconds);
 		}
 
 		public void Pause()
