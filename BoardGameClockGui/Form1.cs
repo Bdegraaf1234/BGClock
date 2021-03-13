@@ -40,6 +40,8 @@ namespace BoardGameClockGui
 	{
 		public Clock CurrentClock;
 
+		public bool IsFirst { get; set; } = true;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Form1"/> class.
 		/// </summary>
@@ -163,7 +165,7 @@ namespace BoardGameClockGui
 				System.Drawing.Color.MediumVioletRed,
 				System.Drawing.Color.DarkOrchid,
 			};
-
+			
 			var A1 = boxplotControl.ChartAreas[0];
 
 			boxplotControl.Series.Clear();
@@ -200,7 +202,11 @@ namespace BoardGameClockGui
 			A2.AlignWithChartArea = "ChartArea1";
 			A2.AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
 
-			A1.Position.Width *= 0.75f;
+			if (IsFirst)
+			{
+				A1.Position.Width *= 0.75f;
+				IsFirst = false;
+			}
 			A2.Position.Y = A1.Position.Y;
 			A2.Position.X = A1.Position.Right;
 			A2.Position.Width = A1.Position.Width * 0.25f;
@@ -210,8 +216,8 @@ namespace BoardGameClockGui
 			A2.AxisX.MajorTickMark.Enabled = false;
 			A2.AxisX.Minimum = 0;
 			A2.AxisX.Maximum = CurrentClock.NumUsers + 1;
-			A2.AxisY.Maximum = A1.AxisY.Maximum;
-			A2.AxisY.Minimum = A1.AxisY.Minimum;
+			//A2.AxisY.Maximum = A1.AxisY.Maximum;
+			//A2.AxisY.Minimum = A1.AxisY.Minimum;
 		}
 	}
 }
