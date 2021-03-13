@@ -59,21 +59,6 @@ namespace BoardGameClockGui
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog ofd = new OpenFileDialog();
-
-			if (ofd.ShowDialog() == DialogResult.OK)
-			{
-				string[] lines = System.IO.File.ReadAllLines(ofd.FileName);
-
-				List<string> nameList = new List<string>();
-				for (int i = 0; i < lines.Length; i++)
-				{
-					if (lines[i] != string.Empty)
-						nameList.Add(lines[i]);
-				}
-
-				CurrentClock = new Clock(nameList.Count, nameList);
-			}
 		}
 
 		private void fIleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,26 +79,79 @@ namespace BoardGameClockGui
 			}
 		}
 
-		private void startToolStripMenuItem_Click(object sender, EventArgs e)
+		private void nextButton_Resize(object sender, EventArgs e)
+		{
+			GraphicsPath p = new GraphicsPath();
+			p.AddEllipse(3, 3, nextButton.Width - 8, nextButton.Height - 8);
+			nextButton.Region = new Region(p);
+		}
+
+		private void newButton_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				if (ofd.FileName.ToLower().EndsWith(".json"))
+				{
+					string lines = System.IO.File.ReadAllText(ofd.FileName);
+
+					CurrentClock = JsonConvert.DeserializeObject<BoardGameClock.Clock>(lines);
+					CurrentClock.Pause();
+
+					playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
+				}
+				else
+				{
+					string[] lines = System.IO.File.ReadAllLines(ofd.FileName);
+
+					List<string> nameList = new List<string>();
+					for (int i = 0; i < lines.Length; i++)
+					{
+						if (lines[i] != string.Empty)
+							nameList.Add(lines[i]);
+					}
+
+					CurrentClock = new Clock(nameList.Count, nameList);
+				}
+			}
+
+			newButton.Visible = false;
+			startButton.Visible = true;
+			stopButton.Visible = false;
+			pauseButton.Visible = false;
+		}
+
+		private void startButton_Click(object sender, EventArgs e)
 		{
 			CurrentClock.Start();
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex];
+			stopButton.Visible = true;
+			pauseButton.Visible = true;
+			startButton.Visible = false;
 		}
 
-		private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+		private void stopButton_Click(object sender, EventArgs e)
 		{
 			CurrentClock.Stop();
 			playingLabel.Text = "Game over";
+			stopButton.Visible = false;
+			pauseButton.Visible = false;
+			startButton.Visible = false;
+			newButton.Visible = true;
 		}
 
-		private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+		private void pauseButton_Click(object sender, EventArgs e)
 		{
 			CurrentClock.Pause();
 
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
+			stopButton.Visible = false;
+			pauseButton.Visible = false;
+			startButton.Visible = true;
 		}
 
-		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+		private void boxplotControl_Click(object sender, EventArgs e)
 		{
 			var cols = new Color[]
 			{
@@ -125,9 +163,14 @@ namespace BoardGameClockGui
 				System.Drawing.Color.MediumVioletRed,
 				System.Drawing.Color.DarkOrchid,
 			};
-			boxplotControl.Series.Clear();
 
-			Random r = new Random();
+			var A1 = boxplotControl.ChartAreas[0];
+
+			boxplotControl.Series.Clear();
+			boxplotControl.ChartAreas.Clear();
+
+			boxplotControl.ChartAreas.Add(A1);
+
 			List<Series> sList = new List<Series>();
 
 			ChartArea A2 = boxplotControl.ChartAreas.Add("A2");
@@ -154,10 +197,9 @@ namespace BoardGameClockGui
 				i++;
 			}
 
-			var A1 = boxplotControl.ChartAreas[0];
 			A2.AlignWithChartArea = "ChartArea1";
 			A2.AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
-			
+
 			A1.Position.Width *= 0.75f;
 			A2.Position.Y = A1.Position.Y;
 			A2.Position.X = A1.Position.Right;
@@ -170,58 +212,6 @@ namespace BoardGameClockGui
 			A2.AxisX.Maximum = CurrentClock.NumUsers + 1;
 			A2.AxisY.Maximum = A1.AxisY.Maximum;
 			A2.AxisY.Minimum = A1.AxisY.Minimum;
-		}
-
-		private void fromJsonToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-			OpenFileDialog ofd = new OpenFileDialog();
-
-			if (ofd.ShowDialog() == DialogResult.OK)
-			{
-				string lines = System.IO.File.ReadAllText(ofd.FileName);
-
-				CurrentClock = JsonConvert.DeserializeObject<BoardGameClock.Clock>(lines);
-				CurrentClock.Pause();
-
-				playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
-			}
-		}
-
-		private void nextButton_Resize(object sender, EventArgs e)
-		{
-			GraphicsPath p = new GraphicsPath();
-			p.AddEllipse(3, 3, nextButton.Width - 8, nextButton.Height - 8);
-			nextButton.Region = new Region(p);
-		}
-
-		private void mainTab_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void playingLabel_TextChanged(object sender, EventArgs e)
-		{
-		}
-
-		private void newButton_Click(object sender, EventArgs e)
-		{
-			newToolStripMenuItem_Click(sender, e);
-		}
-
-		private void startButton_Click(object sender, EventArgs e)
-		{
-			startToolStripMenuItem_Click(sender, e);
-		}
-
-		private void stopButton_Click(object sender, EventArgs e)
-		{
-			stopToolStripMenuItem_Click(sender, e);
-		}
-
-		private void pauseButton_Click(object sender, EventArgs e)
-		{
-			pauseToolStripMenuItem_Click(sender, e);
 		}
 	}
 }
