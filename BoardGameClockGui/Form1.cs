@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,15 @@ namespace BoardGameClockGui
 		public Form1()
 		{
 			this.InitializeComponent();
+			playingLabel.Paint += PlayingLabel_Paint;
+			GraphicsPath p = new GraphicsPath();
+			p.AddEllipse(3, 3, nextButton.Width - 8, nextButton.Height - 8);
+			nextButton.Region = new Region(p);
+		}
+
+		private void PlayingLabel_Paint(object sender, PaintEventArgs e)
+		{
+			playingLabel.Left = (int)(ClientSize.Width / 2) - (int)(0.5 * playingLabel.Width);
 		}
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -177,6 +187,22 @@ namespace BoardGameClockGui
 
 				playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
 			}
+		}
+
+		private void nextButton_Resize(object sender, EventArgs e)
+		{
+			GraphicsPath p = new GraphicsPath();
+			p.AddEllipse(3, 3, nextButton.Width - 8, nextButton.Height - 8);
+			nextButton.Region = new Region(p);
+		}
+
+		private void mainTab_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void playingLabel_TextChanged(object sender, EventArgs e)
+		{
 		}
 	}
 }
