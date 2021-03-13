@@ -167,8 +167,7 @@ namespace BoardGameClockGui
 			A2.AxisX.MajorGrid.Enabled = false;
 			A2.AxisX.MajorTickMark.Enabled = false;
 			A2.AxisX.Minimum = 0;
-			A2.AxisX.Maximum = 4 + 1;
-			A2.AxisY.Interval = 10;
+			A2.AxisX.Maximum = CurrentClock.NumUsers + 1;
 			A2.AxisY.Maximum = A1.AxisY.Maximum;
 			A2.AxisY.Minimum = A1.AxisY.Minimum;
 		}
@@ -203,6 +202,26 @@ namespace BoardGameClockGui
 
 		private void playingLabel_TextChanged(object sender, EventArgs e)
 		{
+		}
+
+		private void newButton_Click(object sender, EventArgs e)
+		{
+			newToolStripMenuItem_Click(sender, e);
+		}
+
+		private void startButton_Click(object sender, EventArgs e)
+		{
+			startToolStripMenuItem_Click(sender, e);
+		}
+
+		private void stopButton_Click(object sender, EventArgs e)
+		{
+			stopToolStripMenuItem_Click(sender, e);
+		}
+
+		private void pauseButton_Click(object sender, EventArgs e)
+		{
+			pauseToolStripMenuItem_Click(sender, e);
 		}
 	}
 }

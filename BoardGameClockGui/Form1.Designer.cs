@@ -28,12 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,20 +46,16 @@
 			this.nextButton = new System.Windows.Forms.Button();
 			this.playingLabel = new System.Windows.Forms.Label();
 			this.mainTabControl = new System.Windows.Forms.TabControl();
-			this.linePlotTabPage = new System.Windows.Forms.TabPage();
-			this.linePlot = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.boxplotTabPage = new System.Windows.Forms.TabPage();
 			this.boxplotControl = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.summaryTabControl = new System.Windows.Forms.TabControl();
+			this.newButton = new System.Windows.Forms.Button();
+			this.startButton = new System.Windows.Forms.Button();
+			this.stopButton = new System.Windows.Forms.Button();
+			this.pauseButton = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.summaryTab.SuspendLayout();
 			this.mainTab.SuspendLayout();
 			this.mainTabControl.SuspendLayout();
-			this.linePlotTabPage.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.linePlot)).BeginInit();
-			this.boxplotTabPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.boxplotControl)).BeginInit();
-			this.summaryTabControl.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -93,35 +86,35 @@
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.newToolStripMenuItem.Text = "New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
 			// startToolStripMenuItem
 			// 
 			this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-			this.startToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+			this.startToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.startToolStripMenuItem.Text = "Start";
 			this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
 			// 
 			// stopToolStripMenuItem
 			// 
 			this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-			this.stopToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+			this.stopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.stopToolStripMenuItem.Text = "Stop";
 			this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
 			// 
 			// pauseToolStripMenuItem
 			// 
 			this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-			this.pauseToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+			this.pauseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.pauseToolStripMenuItem.Text = "Pause";
 			this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
 			// 
 			// fromJsonToolStripMenuItem
 			// 
 			this.fromJsonToolStripMenuItem.Name = "fromJsonToolStripMenuItem";
-			this.fromJsonToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+			this.fromJsonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.fromJsonToolStripMenuItem.Text = "FromJson";
 			this.fromJsonToolStripMenuItem.Click += new System.EventHandler(this.fromJsonToolStripMenuItem_Click);
 			// 
@@ -142,7 +135,7 @@
 			// 
 			// summaryTab
 			// 
-			this.summaryTab.Controls.Add(this.summaryTabControl);
+			this.summaryTab.Controls.Add(this.boxplotControl);
 			this.summaryTab.Location = new System.Drawing.Point(4, 22);
 			this.summaryTab.Name = "summaryTab";
 			this.summaryTab.Padding = new System.Windows.Forms.Padding(3);
@@ -153,6 +146,10 @@
 			// 
 			// mainTab
 			// 
+			this.mainTab.Controls.Add(this.pauseButton);
+			this.mainTab.Controls.Add(this.stopButton);
+			this.mainTab.Controls.Add(this.startButton);
+			this.mainTab.Controls.Add(this.newButton);
 			this.mainTab.Controls.Add(this.playingLabel);
 			this.mainTab.Controls.Add(this.nextButton);
 			this.mainTab.Controls.Add(this.turnPrefixLabel);
@@ -214,74 +211,62 @@
 			this.mainTabControl.Size = new System.Drawing.Size(800, 426);
 			this.mainTabControl.TabIndex = 0;
 			// 
-			// linePlotTabPage
-			// 
-			this.linePlotTabPage.Controls.Add(this.linePlot);
-			this.linePlotTabPage.Location = new System.Drawing.Point(4, 22);
-			this.linePlotTabPage.Name = "linePlotTabPage";
-			this.linePlotTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.linePlotTabPage.Size = new System.Drawing.Size(778, 368);
-			this.linePlotTabPage.TabIndex = 1;
-			this.linePlotTabPage.Text = "LinePlot";
-			this.linePlotTabPage.UseVisualStyleBackColor = true;
-			// 
-			// linePlot
-			// 
-			chartArea2.Name = "ChartArea1";
-			this.linePlot.ChartAreas.Add(chartArea2);
-			this.linePlot.Dock = System.Windows.Forms.DockStyle.Fill;
-			legend2.Name = "Legend1";
-			this.linePlot.Legends.Add(legend2);
-			this.linePlot.Location = new System.Drawing.Point(3, 3);
-			this.linePlot.Name = "linePlot";
-			series2.ChartArea = "ChartArea1";
-			series2.Legend = "Legend1";
-			series2.Name = "Series1";
-			this.linePlot.Series.Add(series2);
-			this.linePlot.Size = new System.Drawing.Size(772, 362);
-			this.linePlot.TabIndex = 0;
-			this.linePlot.Text = "chart2";
-			// 
-			// boxplotTabPage
-			// 
-			this.boxplotTabPage.Controls.Add(this.boxplotControl);
-			this.boxplotTabPage.Location = new System.Drawing.Point(4, 22);
-			this.boxplotTabPage.Name = "boxplotTabPage";
-			this.boxplotTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.boxplotTabPage.Size = new System.Drawing.Size(778, 368);
-			this.boxplotTabPage.TabIndex = 0;
-			this.boxplotTabPage.Text = "boxplotTab";
-			this.boxplotTabPage.UseVisualStyleBackColor = true;
-			// 
 			// boxplotControl
 			// 
-			this.boxplotControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			chartArea1.Name = "ChartArea1";
-			this.boxplotControl.ChartAreas.Add(chartArea1);
-			legend1.Name = "Legend1";
-			this.boxplotControl.Legends.Add(legend1);
+			chartArea4.Name = "ChartArea1";
+			this.boxplotControl.ChartAreas.Add(chartArea4);
+			this.boxplotControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			legend4.Name = "Legend1";
+			this.boxplotControl.Legends.Add(legend4);
 			this.boxplotControl.Location = new System.Drawing.Point(3, 3);
 			this.boxplotControl.Name = "boxplotControl";
-			series1.ChartArea = "ChartArea1";
-			series1.Legend = "Legend1";
-			series1.Name = "Series1";
-			this.boxplotControl.Series.Add(series1);
-			this.boxplotControl.Size = new System.Drawing.Size(772, 362);
-			this.boxplotControl.TabIndex = 0;
+			series4.ChartArea = "ChartArea1";
+			series4.Legend = "Legend1";
+			series4.Name = "Series1";
+			this.boxplotControl.Series.Add(series4);
+			this.boxplotControl.Size = new System.Drawing.Size(786, 394);
+			this.boxplotControl.TabIndex = 1;
 			this.boxplotControl.Text = "boxplotControl";
 			// 
-			// summaryTabControl
+			// newButton
 			// 
-			this.summaryTabControl.Controls.Add(this.boxplotTabPage);
-			this.summaryTabControl.Controls.Add(this.linePlotTabPage);
-			this.summaryTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.summaryTabControl.Location = new System.Drawing.Point(3, 3);
-			this.summaryTabControl.Name = "summaryTabControl";
-			this.summaryTabControl.SelectedIndex = 0;
-			this.summaryTabControl.Size = new System.Drawing.Size(786, 394);
-			this.summaryTabControl.TabIndex = 0;
+			this.newButton.Location = new System.Drawing.Point(20, 18);
+			this.newButton.Name = "newButton";
+			this.newButton.Size = new System.Drawing.Size(75, 23);
+			this.newButton.TabIndex = 4;
+			this.newButton.Text = "New";
+			this.newButton.UseVisualStyleBackColor = true;
+			this.newButton.Click += new System.EventHandler(this.newButton_Click);
+			// 
+			// startButton
+			// 
+			this.startButton.Location = new System.Drawing.Point(20, 47);
+			this.startButton.Name = "startButton";
+			this.startButton.Size = new System.Drawing.Size(75, 23);
+			this.startButton.TabIndex = 5;
+			this.startButton.Text = "Start";
+			this.startButton.UseVisualStyleBackColor = true;
+			this.startButton.Click += new System.EventHandler(this.startButton_Click);
+			// 
+			// stopButton
+			// 
+			this.stopButton.Location = new System.Drawing.Point(20, 76);
+			this.stopButton.Name = "stopButton";
+			this.stopButton.Size = new System.Drawing.Size(75, 23);
+			this.stopButton.TabIndex = 6;
+			this.stopButton.Text = "Stop";
+			this.stopButton.UseVisualStyleBackColor = true;
+			this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+			// 
+			// pauseButton
+			// 
+			this.pauseButton.Location = new System.Drawing.Point(20, 105);
+			this.pauseButton.Name = "pauseButton";
+			this.pauseButton.Size = new System.Drawing.Size(75, 23);
+			this.pauseButton.TabIndex = 7;
+			this.pauseButton.Text = "Pause";
+			this.pauseButton.UseVisualStyleBackColor = true;
+			this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
 			// 
 			// Form1
 			// 
@@ -299,11 +284,7 @@
 			this.mainTab.ResumeLayout(false);
 			this.mainTab.PerformLayout();
 			this.mainTabControl.ResumeLayout(false);
-			this.linePlotTabPage.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.linePlot)).EndInit();
-			this.boxplotTabPage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.boxplotControl)).EndInit();
-			this.summaryTabControl.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -320,16 +301,16 @@
 		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem fromJsonToolStripMenuItem;
 		private System.Windows.Forms.TabPage summaryTab;
-		private System.Windows.Forms.TabControl summaryTabControl;
-		private System.Windows.Forms.TabPage boxplotTabPage;
-		private System.Windows.Forms.DataVisualization.Charting.Chart boxplotControl;
-		private System.Windows.Forms.TabPage linePlotTabPage;
-		private System.Windows.Forms.DataVisualization.Charting.Chart linePlot;
 		private System.Windows.Forms.TabPage mainTab;
 		private System.Windows.Forms.Label playingLabel;
 		private System.Windows.Forms.Button nextButton;
 		private System.Windows.Forms.Label turnPrefixLabel;
 		private System.Windows.Forms.TabControl mainTabControl;
+		private System.Windows.Forms.DataVisualization.Charting.Chart boxplotControl;
+		private System.Windows.Forms.Button pauseButton;
+		private System.Windows.Forms.Button stopButton;
+		private System.Windows.Forms.Button startButton;
+		private System.Windows.Forms.Button newButton;
 	}
 }
 
