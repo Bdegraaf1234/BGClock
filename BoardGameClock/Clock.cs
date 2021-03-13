@@ -16,6 +16,11 @@ namespace BoardGameClock
 		public int NumUsers { get { return UserClocks.Count; } }
 		public bool IsRunning = false;
 
+		public Clock()
+		{
+
+		}
+
 		public Clock(int numUsers)
 		{
 			for (int i = 0; i < numUsers; i++)

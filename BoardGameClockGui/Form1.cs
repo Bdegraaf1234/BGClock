@@ -17,15 +17,18 @@
 // </copyright>
 
 using BoardGameClock;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace BoardGameClockGui
 {
@@ -72,6 +75,13 @@ namespace BoardGameClockGui
 		{
 			CurrentClock.Next();
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex];
+			string fold = Path.GetTempPath() + "bgClock.json";
+			JsonSerializer serializer = new JsonSerializer();
+			using (StreamWriter sw = new StreamWriter(fold))
+			using (JsonWriter writer = new JsonTextWriter(sw))
+			{
+				serializer.Serialize(writer, CurrentClock);
+			}
 		}
 
 		private void startToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,6 +101,82 @@ namespace BoardGameClockGui
 			CurrentClock.Pause();
 
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
+		}
+
+		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var cols = new Color[]
+			{
+				System.Drawing.Color.Blue,
+				System.Drawing.Color.Coral,
+				System.Drawing.Color.Crimson,
+				System.Drawing.Color.Violet,
+				System.Drawing.Color.MediumTurquoise,
+				System.Drawing.Color.MediumVioletRed,
+				System.Drawing.Color.DarkOrchid,
+			};
+			boxplotControl.Series.Clear();
+
+			Random r = new Random();
+			List<Series> sList = new List<Series>();
+
+			ChartArea A2 = boxplotControl.ChartAreas.Add("A2");
+			Series BS = boxplotControl.Series.Add("BoxPlotSeries");
+			BS.ChartArea = "A2";
+			BS.ChartType = SeriesChartType.BoxPlot;
+			int i = 0;
+			foreach (var clock in CurrentClock.UserTurnTimes)
+			{
+				sList.Add(new Series(CurrentClock.UserNames[i]));
+				sList.Last().ChartType = SeriesChartType.Line;
+				sList.Last().Color = cols[i];
+				for (int j = 0; j < clock.Count; j++)
+				{
+					sList.Last().Points.AddXY(j, clock[j]);
+					sList.Last().Points.Last().Color = cols[i];
+				}
+
+				boxplotControl.Series.Add(sList.Last());
+				BS.Points.Add(new DataPoint(i + 1, 0));
+				DataPoint DPT = BS.Points[BS.Points.Count - 1];
+				DPT["BoxPlotSeries"] = CurrentClock.UserNames[i];
+				DPT.Color = cols[i];
+				i++;
+			}
+
+			var A1 = boxplotControl.ChartAreas[0];
+			A2.AlignWithChartArea = "ChartArea1";
+			A2.AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
+			
+			A1.Position.Width *= 0.75f;
+			A2.Position.Y = A1.Position.Y;
+			A2.Position.X = A1.Position.Right;
+			A2.Position.Width = A1.Position.Width * 0.25f;
+
+			A2.AxisX.LabelStyle.ForeColor = Color.Transparent;
+			A2.AxisX.MajorGrid.Enabled = false;
+			A2.AxisX.MajorTickMark.Enabled = false;
+			A2.AxisX.Minimum = 0;
+			A2.AxisX.Maximum = 4 + 1;
+			A2.AxisY.Interval = 10;
+			A2.AxisY.Maximum = A1.AxisY.Maximum;
+			A2.AxisY.Minimum = A1.AxisY.Minimum;
+		}
+
+		private void fromJsonToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+			OpenFileDialog ofd = new OpenFileDialog();
+
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				string lines = System.IO.File.ReadAllText(ofd.FileName);
+
+				CurrentClock = JsonConvert.DeserializeObject<BoardGameClock.Clock>(lines);
+				CurrentClock.Pause();
+
+				playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex] + "(Paused)";
+			}
 		}
 	}
 }
