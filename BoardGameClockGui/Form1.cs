@@ -59,15 +59,6 @@ namespace BoardGameClockGui
 			playingLabel.Left = (int)(ClientSize.Width / 2) - (int)(0.5 * playingLabel.Width);
 		}
 
-		private void newToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void fIleToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
-
 		private void nextButton_Click(object sender, EventArgs e)
 		{
 			CurrentClock.Next();
