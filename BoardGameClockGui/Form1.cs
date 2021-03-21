@@ -48,10 +48,59 @@ namespace BoardGameClockGui
 		public Form1()
 		{
 			this.InitializeComponent();
+			RegisterHotkeys();
+
 			playingLabel.Paint += PlayingLabel_Paint;
 			GraphicsPath p = new GraphicsPath();
 			p.AddEllipse(3, 3, nextButton.Width - 8, nextButton.Height - 8);
 			nextButton.Region = new Region(p);
+		}
+
+		private void RegisterHotkeys()
+		{
+			// hotkeys
+			int pHotKeyId = 1;
+			uint HotKeyCode = (uint)Keys.F1;
+			Boolean PRegistered = NativeMethods.RegisterHotKey(
+				this.Handle, pHotKeyId, 0x0000, HotKeyCode
+			);
+
+			int undoHotkeyId = 2;
+			HotKeyCode = (uint)Keys.F2;
+
+			Boolean ctrlZRegistered = NativeMethods.RegisterHotKey(
+				this.Handle, undoHotkeyId, 0x0000, HotKeyCode
+			);
+		}
+
+		void UninitializeHotKey()
+		{
+			NativeMethods.UnregisterHotKey(this.Handle, 1);
+			NativeMethods.UnregisterHotKey(this.Handle, 2);
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			// Catch when a HotKey is pressed !
+			if (m.Msg == 0x0312)
+			{
+				int id = m.WParam.ToInt32();
+
+				if (id == 1)
+				{
+					if (CurrentClock.IsRunning)
+						pauseButton_Click();
+					else
+						startButton_Click();
+				}
+				else if (id == 2)
+				{
+					CurrentClock.Undo();
+					pauseButton_Click();
+				}
+			}
+
+			base.WndProc(ref m);
 		}
 
 		private void PlayingLabel_Paint(object sender, PaintEventArgs e)
@@ -59,10 +108,10 @@ namespace BoardGameClockGui
 			playingLabel.Left = (int)(ClientSize.Width / 2) - (int)(0.5 * playingLabel.Width);
 		}
 
-		private void nextButton_Click(object sender, EventArgs e)
+		private void nextButton_Click(object sender = null, EventArgs e = null)
 		{
 			if (CurrentClock == null)
-				newButton_Click(sender, e);
+				newButton_Click();
 
 			CurrentClock.Next();
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex];
@@ -86,8 +135,10 @@ namespace BoardGameClockGui
 			nextButton.Region = new Region(p);
 		}
 
-		private void newButton_Click(object sender, EventArgs e)
+		private void newButton_Click(object sender = null, EventArgs e = null)
 		{
+			UninitializeHotKey();
+
 			OpenFileDialog ofd = new OpenFileDialog();
 
 			if (ofd.ShowDialog() == DialogResult.OK)
@@ -120,9 +171,11 @@ namespace BoardGameClockGui
 			startButton.Visible = true;
 			stopButton.Visible = false;
 			pauseButton.Visible = false;
+
+			RegisterHotkeys();
 		}
 
-		private void startButton_Click(object sender, EventArgs e)
+		private void startButton_Click(object sender = null, EventArgs e = null)
 		{
 			if (CurrentClock == null)
 				newButton_Click(sender, e);
@@ -134,7 +187,7 @@ namespace BoardGameClockGui
 			startButton.Visible = false;
 		}
 
-		private void stopButton_Click(object sender, EventArgs e)
+		private void stopButton_Click(object sender = null, EventArgs e = null)
 		{
 			CurrentClock.Stop();
 			playingLabel.Text = "Game over";
@@ -144,7 +197,7 @@ namespace BoardGameClockGui
 			newButton.Visible = true;
 		}
 
-		private void pauseButton_Click(object sender, EventArgs e)
+		private void pauseButton_Click(object sender = null, EventArgs e = null)
 		{
 			CurrentClock.Pause();
 
@@ -166,7 +219,7 @@ namespace BoardGameClockGui
 				System.Drawing.Color.MediumVioletRed,
 				System.Drawing.Color.DarkOrchid,
 			};
-			
+
 			var A1 = boxplotControl.ChartAreas[0];
 
 			boxplotControl.Series.Clear();
@@ -231,6 +284,18 @@ namespace BoardGameClockGui
 					startButton_Click(sender, e);
 			if (e.KeyChar == 'q')
 				stopButton_Click(sender, e);
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			string msg = "";
+
+			for (int i = 0; i < CurrentClock.NumUsers; i++)
+			{
+				msg += String.Format("{0,-20} {1,-20}\n", CurrentClock.UserNames[i], CurrentClock.GetUserTotalTime(i) / 1000);
+			}
+
+			MessageBox.Show(msg);
 		}
 	}
 }

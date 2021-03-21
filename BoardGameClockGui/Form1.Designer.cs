@@ -42,6 +42,7 @@
 			this.nextButton = new System.Windows.Forms.Button();
 			this.turnPrefixLabel = new System.Windows.Forms.Label();
 			this.mainTabControl = new System.Windows.Forms.TabControl();
+			this.timeTotalButton = new System.Windows.Forms.Button();
 			this.summaryTab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.boxplotControl)).BeginInit();
 			this.mainTab.SuspendLayout();
@@ -50,6 +51,7 @@
 			// 
 			// summaryTab
 			// 
+			this.summaryTab.Controls.Add(this.timeTotalButton);
 			this.summaryTab.Controls.Add(this.boxplotControl);
 			this.summaryTab.Location = new System.Drawing.Point(4, 22);
 			this.summaryTab.Name = "summaryTab";
@@ -185,6 +187,17 @@
 			this.mainTabControl.Size = new System.Drawing.Size(800, 450);
 			this.mainTabControl.TabIndex = 0;
 			// 
+			// timeTotalButton
+			// 
+			this.timeTotalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.timeTotalButton.Location = new System.Drawing.Point(683, 393);
+			this.timeTotalButton.Name = "timeTotalButton";
+			this.timeTotalButton.Size = new System.Drawing.Size(101, 23);
+			this.timeTotalButton.TabIndex = 2;
+			this.timeTotalButton.Text = "Get time totals";
+			this.timeTotalButton.UseVisualStyleBackColor = true;
+			this.timeTotalButton.Click += new System.EventHandler(this.button1_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,6 +228,7 @@
 		private System.Windows.Forms.Button stopButton;
 		private System.Windows.Forms.Button startButton;
 		private System.Windows.Forms.Button newButton;
+		private System.Windows.Forms.Button timeTotalButton;
 	}
 }
 

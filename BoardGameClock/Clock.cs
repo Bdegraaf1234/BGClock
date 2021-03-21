@@ -57,14 +57,30 @@ namespace BoardGameClock
 		public long Next()
 		{
 			Stop();
+			IsRunning = true;
 			RunningIndex++;
 			if (RunningIndex == NumUsers)
 				RunningIndex = 0;
 
 			int prevIndex = RunningIndex - 1 < 0 ? NumUsers - 1 : RunningIndex - 1;
-			
+
 			UserClocks[RunningIndex].Restart();
 			return UserClocks[prevIndex].ElapsedMilliseconds;
+		}
+
+		/// <summary>
+		/// Returns number of milliseconds of current user;
+		/// </summary>
+		/// <returns></returns>
+		public void Undo()
+		{
+			UserClocks[RunningIndex].Stop();
+			RunningIndex--;
+			if (RunningIndex == -1)
+				RunningIndex = NumUsers - 1;
+
+			UserTurnTimes[RunningIndex].RemoveAt(UserTurnTimes[RunningIndex].Count() - 1);
+			UserClocks[RunningIndex].Start();
 		}
 
 		/// <summary>
