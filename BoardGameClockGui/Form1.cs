@@ -61,6 +61,9 @@ namespace BoardGameClockGui
 
 		private void nextButton_Click(object sender, EventArgs e)
 		{
+			if (CurrentClock == null)
+				newButton_Click(sender, e);
+
 			CurrentClock.Next();
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex];
 			string fold = Path.GetTempPath() + "bgClock.json";
@@ -70,6 +73,10 @@ namespace BoardGameClockGui
 			{
 				serializer.Serialize(writer, CurrentClock);
 			}
+
+			stopButton.Visible = true;
+			pauseButton.Visible = true;
+			startButton.Visible = false;
 		}
 
 		private void nextButton_Resize(object sender, EventArgs e)
@@ -117,6 +124,9 @@ namespace BoardGameClockGui
 
 		private void startButton_Click(object sender, EventArgs e)
 		{
+			if (CurrentClock == null)
+				newButton_Click(sender, e);
+
 			CurrentClock.Start();
 			playingLabel.Text = CurrentClock.UserNames[CurrentClock.RunningIndex];
 			stopButton.Visible = true;
@@ -168,6 +178,7 @@ namespace BoardGameClockGui
 
 			ChartArea A2 = boxplotControl.ChartAreas.Add("A2");
 			Series BS = boxplotControl.Series.Add("BoxPlotSeries");
+			BS.IsVisibleInLegend = false;
 			BS.ChartArea = "A2";
 			BS.ChartType = SeriesChartType.BoxPlot;
 			int i = 0;
@@ -209,6 +220,17 @@ namespace BoardGameClockGui
 			A2.AxisX.Maximum = CurrentClock.NumUsers + 1;
 			//A2.AxisY.Maximum = A1.AxisY.Maximum;
 			//A2.AxisY.Minimum = A1.AxisY.Minimum;
+		}
+
+		private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == 'p' || e.KeyChar == ' ')
+				if (CurrentClock.IsRunning)
+					pauseButton_Click(sender, e);
+				else
+					startButton_Click(sender, e);
+			if (e.KeyChar == 'q')
+				stopButton_Click(sender, e);
 		}
 	}
 }

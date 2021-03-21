@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.summaryTab = new System.Windows.Forms.TabPage();
 			this.boxplotControl = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.mainTab = new System.Windows.Forms.TabPage();
@@ -61,17 +61,17 @@
 			// 
 			// boxplotControl
 			// 
-			chartArea3.Name = "ChartArea1";
-			this.boxplotControl.ChartAreas.Add(chartArea3);
+			chartArea1.Name = "ChartArea1";
+			this.boxplotControl.ChartAreas.Add(chartArea1);
 			this.boxplotControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			legend3.Name = "Legend1";
-			this.boxplotControl.Legends.Add(legend3);
+			legend1.Name = "Legend1";
+			this.boxplotControl.Legends.Add(legend1);
 			this.boxplotControl.Location = new System.Drawing.Point(3, 3);
 			this.boxplotControl.Name = "boxplotControl";
-			series3.ChartArea = "ChartArea1";
-			series3.Legend = "Legend1";
-			series3.Name = "Series1";
-			this.boxplotControl.Series.Add(series3);
+			series1.ChartArea = "ChartArea1";
+			series1.Legend = "Legend1";
+			series1.Name = "Series1";
+			this.boxplotControl.Series.Add(series1);
 			this.boxplotControl.Size = new System.Drawing.Size(786, 418);
 			this.boxplotControl.TabIndex = 1;
 			this.boxplotControl.Text = "boxplotControl";
@@ -193,6 +193,7 @@
 			this.Controls.Add(this.mainTabControl);
 			this.Name = "Form1";
 			this.Text = "Form1";
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
 			this.summaryTab.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.boxplotControl)).EndInit();
 			this.mainTab.ResumeLayout(false);
